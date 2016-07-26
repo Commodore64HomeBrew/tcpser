@@ -327,6 +327,12 @@ void *run_bridge(void *arg)
     }
     LOG(LOG_ALL, "Waiting for modem/control line/timer/socket activity");
     LOG(LOG_ALL, "Command Mode=%d, Connection status=%d", cfg->cmd_mode, cfg->conn_type);
+
+    if (cfg->cmd_mode == 0 && cfg->conn_type == 2){
+      LOG(LOG_ALL, "parity: %d",cfg->parity);
+      cfg->parity = 0;
+    }
+
     max_fd = MAX(cfg->data.mp[1][0], cfg->dce_data.fd);
     max_fd = MAX(max_fd, cfg->data.wp[0][0]);
     max_fd = MAX(max_fd, cfg->data.cp[0][0]);
