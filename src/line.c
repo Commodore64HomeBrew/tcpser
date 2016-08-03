@@ -25,6 +25,7 @@ int line_write(modem_config *cfg, char *data, int len)
   int mask = 0x7f;
   int ch;
 
+  LOG(LOG_ALL, "line_data: %d parity: %d",cfg->line_data.is_telnet,cfg->parity);
 
   if (cfg->line_data.is_telnet || cfg->parity) {
     if (cfg->line_data.nvt_data.binary_xmit)

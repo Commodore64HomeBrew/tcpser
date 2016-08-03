@@ -447,6 +447,7 @@ void *run_bridge(void *arg)
     }
     if (FD_ISSET(cfg->data.mp[1][0], &readfs)) {        // parent pipe
       LOG(LOG_DEBUG, "Data available on incoming IPC pipe");
+      cfg->parity = 3;
       res = read(cfg->data.mp[1][0], buf, sizeof(buf));
       switch (buf[0]) {
       case MSG_ACCEPT: // accept connection.
