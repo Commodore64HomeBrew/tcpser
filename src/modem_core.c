@@ -71,7 +71,7 @@ void mdm_init_config(modem_config *cfg)
   cfg->send_responses = TRUE;
   cfg->connect_response = 0;
   cfg->response_code_level = 4;
-  cfg->text_responses = TRUE;
+  cfg->text_responses = FALSE;
   cfg->echo = TRUE;
   cfg->cmd_mode = TRUE;
   cfg->conn_type = MDM_CONN_NONE;
@@ -193,10 +193,10 @@ void mdm_write(modem_config *cfg, char *data, int len)
       memcpy(buf, data, len);
 
       for (i = 0; i < len; i++) {
-	buf[i] &= 0x7f;
-	v = buf[i];
-	v = gen_parity(v);
-	buf[i] |= (((cfg->parity >> v)) & 1) << 7;
+      	buf[i] &= 0x7f;
+      	v = buf[i];
+      	v = gen_parity(v);
+      	buf[i] |= (((cfg->parity >> v)) & 1) << 7;
       }
     
       dce_write(cfg, (char *) buf, len);
