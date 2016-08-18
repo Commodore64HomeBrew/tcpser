@@ -330,7 +330,7 @@ void *run_bridge(void *arg)
 
     if (cfg->cmd_mode == 0 && cfg->conn_type == 2){
       LOG(LOG_ALL, "parity: %d",cfg->parity);
-      cfg->parity = 0;
+      cfg->parity = NULL;
     }
 
     max_fd = MAX(cfg->data.mp[1][0], cfg->dce_data.fd);
