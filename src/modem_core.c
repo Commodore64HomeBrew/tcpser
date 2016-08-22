@@ -612,7 +612,8 @@ int mdm_handle_char(modem_config *cfg, char ch)
     else if (ch == (char) (cfg->s[SRegisterCR])) {
       // we have a line, process.
       cfg->pchars[2] = ch | parbit;
-      cfg->parity = detect_parity(cfg);
+      //cfg->parity = detect_parity(cfg);
+      cfg->parity = 0;
       cfg->cur_line[cfg->cur_line_idx] = 0;
       strncpy(cfg->last_cmd, cfg->cur_line, sizeof(cfg->last_cmd) - 1);
       mdm_parse_cmd(cfg);
