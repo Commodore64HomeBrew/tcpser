@@ -102,9 +102,9 @@ void log_trace(int type, char *line, int len)
         }
         text[i % 16] = ' ';
       }
-      //log_start(LOG_TRACE);
-      //fprintf(log_file, "%s|%s|%s|", trace_type[type], data, text);
-      fprintf(log_file, "%s", text);
+      log_start(LOG_TRACE);
+      fprintf(log_file, "%s|%s|%s|", trace_type[type], data, text);
+      //fprintf(log_file, "%s", text);
     }
     log_end();
   }
