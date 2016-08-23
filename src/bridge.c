@@ -170,7 +170,6 @@ void *ip_thread(void *arg)
 
         res = read(cfg->data.cp[1][0], buf, sizeof(buf) - 1);
         LOG(LOG_DEBUG, "IP thread notified");
-	//cfg->parity = 0;
         action_pending = FALSE;
       }
     }
@@ -329,10 +328,10 @@ void *run_bridge(void *arg)
     LOG(LOG_ALL, "Waiting for modem/control line/timer/socket activity");
     LOG(LOG_ALL, "Command Mode=%d, Connection status=%d", cfg->cmd_mode, cfg->conn_type);
 
-    /*if (cfg->cmd_mode == 0 && cfg->conn_type == 2){
+    if (cfg->cmd_mode == 0 && cfg->conn_type == 2){
       LOG(LOG_ALL, "parity: %d",cfg->parity);
       cfg->parity = 0;
-    }*/
+    }
 
     max_fd = MAX(cfg->data.mp[1][0], cfg->dce_data.fd);
     max_fd = MAX(max_fd, cfg->data.wp[0][0]);
@@ -397,7 +396,6 @@ void *run_bridge(void *arg)
         mdm_handle_timeout(cfg);
     }
     if (FD_ISSET(cfg->dce_data.fd, &readfs)) {  // serial port
-      cfg->parity = 0;
       LOG(LOG_DEBUG, "Data available on serial port");
       res = dce_read(cfg, buf, sizeof(buf));
       LOG(LOG_DEBUG, "Read %d bytes from serial port", res);

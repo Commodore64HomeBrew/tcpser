@@ -27,7 +27,7 @@ int line_write(modem_config *cfg, char *data, int len)
 
   LOG(LOG_ALL, "line_data: %d parity: %d",cfg->line_data.is_telnet,cfg->parity);
 
-  if (cfg->line_data.is_telnet || cfg->parity) {
+  if (cfg->line_data.is_telnet || cfg->parity>0) {
     if (cfg->line_data.nvt_data.binary_xmit)
       mask = 0xff;
     
@@ -97,7 +97,7 @@ int line_connect(modem_config *cfg)
     send_nvt_command(cfg->line_data.fd, &cfg->line_data.nvt_data, NVT_WILL, NVT_OPT_ECHO);
 
     /* If space parity is detected treat it as 8 bit and try to enable binary mode */
-    if (!cfg->parity) {
+    if (!cfg->parity || cfg->parity==0) {
       send_nvt_command(cfg->line_data.fd, &cfg->line_data.nvt_data,
 		       NVT_WILL, NVT_OPT_TRANSMIT_BINARY);
       send_nvt_command(cfg->line_data.fd, &cfg->line_data.nvt_data,

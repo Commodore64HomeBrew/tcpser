@@ -188,7 +188,7 @@ void mdm_write(modem_config *cfg, char *data, int len)
 
 
   if (cfg->allow_transmit == TRUE) {
-    if (cfg->parity) {
+    if (cfg->parity>0) {
       buf = malloc(len);
       memcpy(buf, data, len);
 
@@ -612,8 +612,7 @@ int mdm_handle_char(modem_config *cfg, char ch)
     else if (ch == (char) (cfg->s[SRegisterCR])) {
       // we have a line, process.
       cfg->pchars[2] = ch | parbit;
-      //cfg->parity = detect_parity(cfg);
-      cfg->parity = 0;
+      cfg->parity = detect_parity(cfg);
       cfg->cur_line[cfg->cur_line_idx] = 0;
       strncpy(cfg->last_cmd, cfg->cur_line, sizeof(cfg->last_cmd) - 1);
       mdm_parse_cmd(cfg);
@@ -673,7 +672,7 @@ int mdm_parse_data(modem_config *cfg, char *data, int len)
     if (cfg->pre_break_delay == TRUE) {
       for (i = 0; i < len; i++) {
 	ch = data[i];
-	if (cfg->parity)
+	if (cfg->parity>0)
 	  ch &= 0x7f;
         if (ch == (char) cfg->s[SRegisterBreak]) {
           LOG(LOG_DEBUG, "Break character received");
